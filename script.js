@@ -14,7 +14,7 @@ document.getElementById('leaveForm').addEventListener('submit', function(event) 
   console.log('Form Data:', formData);
 
   // Send the data to the Google Apps Script via POST request
-  fetch('https://script.google.com/macros/s/AKfycbyJdaQxqed6LQjh9sAlEfrBKKJSNMYN6_VcTF84XpYhWWZUIVXIAQvx6gTYAPJfRj4P/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyN8c3WNBcfTGIxWUorXmaqsUygQf37ajebo6D0FtJw-GC8RoQg3-hP9VaqjXpLs2t7/exec', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'  // Set the correct content type
