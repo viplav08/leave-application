@@ -1,30 +1,36 @@
-document.getElementById("leaveForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+document.getElementById('leaveForm').addEventListener('submit', function(event) {
+    event.preventDefault();  // Prevent form from submitting the default way
 
+    // Collect form data
     var formData = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        leaveType: document.getElementById("leaveType").value,
-        startDate: document.getElementById("startDate").value,
-        endDate: document.getElementById("endDate").value,
-        reason: document.getElementById("reason").value
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        leaveType: document.getElementById('leaveType').value,
+        startDate: document.getElementById('startDate').value,
+        endDate: document.getElementById('endDate').value,
+        reason: document.getElementById('reason').value
     };
 
-    // Replace 'YOUR_GOOGLE_APPS_SCRIPT_URL' with the Google Apps Script URL
-    fetch("https://script.google.com/a/macros/commoditiescontrol.com/s/AKfycbxe9NpvvteFX6g6icWmIUhpKI3o_YCX10ImeYnf8g0/dev", {
-        method: "POST",
+    // Send the data to the Google Apps Script
+    fetch('https://script.google.com/macros/s/AKfycbxe9NpvvteFX6g6icWmIUhpKI3o_YCX10ImeYnf8g0/dev', {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData)  // Send data as JSON
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById("responseMessage").innerText = "Leave application submitted successfully!";
-        document.getElementById("leaveForm").reset();
+        // Handle the response after submitting the data
+        if (data.status === 'success') {
+            document.getElementById('responseMessage').innerText = "Leave application submitted successfully!";
+            document.getElementById('leaveForm').reset();
+        } else {
+            document.getElementById('responseMessage').innerText = "Error: " + data.message;
+        }
     })
     .catch(error => {
-        document.getElementById("responseMessage").innerText = "Error submitting form.";
-        console.error("Error:", error);
+        console.error('Error:', error);
+        document.getElementById('responseMessage').innerText = "An error occurred, please try again.";
     });
 });
