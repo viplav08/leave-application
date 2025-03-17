@@ -1,8 +1,58 @@
-function doPost(e) {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("LeaveRequests"); // Sheet name should match
-    var data = JSON.parse(e.postData.contents);
+document.getElementById("leaveForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    sheet.appendRow([data.name, data.email, data.leaveType, data.startDate, data.endDate, data.reason, new Date()]);
+    var formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        leaveType: document.getElementById("leaveType").value,
+        startDate: document.getElementById("startDate").value,
+        endDate: document.getElementById("endDate").value,
+        reason: document.getElementById("reason").value
+    };
 
-    return ContentService.createTextOutput(JSON.stringify({ "status": "success" })).setMimeType(ContentService.MimeType.JSON);
-}
+    fetch("document.getElementById("leaveForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    var formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        leaveType: document.getElementById("leaveType").value,
+        startDate: document.getElementById("startDate").value,
+        endDate: document.getElementById("endDate").value,
+        reason: document.getElementById("reason").value
+    };
+
+    fetch("YOUR_GOOGLE_APPS_SCRIPT_URL", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("responseMessage").innerText = "Leave application submitted successfully!";
+        document.getElementById("leaveForm").reset();
+    })
+    .catch(error => {
+        document.getElementById("responseMessage").innerText = "Error submitting form.";
+        console.error("Error:", error);
+    });
+});
+", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("responseMessage").innerText = "Leave application submitted successfully!";
+        document.getElementById("leaveForm").reset();
+    })
+    .catch(error => {
+        document.getElementById("responseMessage").innerText = "Error submitting form.";
+        console.error("Error:", error);
+    });
+});
