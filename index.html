@@ -3,8 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leave Application</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Leave Application Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+            color: #333;
+        }
+        input[type="date"] {
+            padding: 8px;
+        }
+        button {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -15,9 +76,10 @@
 
             <label for="leaveType">Leave Type:</label>
             <select id="leaveType" name="leaveType" required>
-                <option value="Sick Leave">Sick Leave</option>
                 <option value="Casual Leave">Casual Leave</option>
-                <option value="Annual Leave">Annual Leave</option>
+                <option value="Sick Leave">Sick Leave</option>
+                <option value="Earned Leave">Earned Leave</option>
+                <option value="Maternity Leave">Maternity Leave</option>
             </select>
 
             <label for="startDate">Start Date:</label>
@@ -26,10 +88,41 @@
             <label for="endDate">End Date:</label>
             <input type="date" id="endDate" name="endDate" required>
 
-            <button type="submit">Submit Leave Request</button>
+            <button type="button" onclick="submitForm()">Submit Leave Request</button>
         </form>
+        <div class="message" id="message"></div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        async function submitForm() {
+            const scriptURL = "YOUR_DEPLOYED_SCRIPT_URL";  // Replace this with your deployed Apps Script URL
+            const form = document.getElementById("leaveForm");
+            const message = document.getElementById("message");
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(scriptURL, {
+                    method: "POST",
+                    body: new URLSearchParams(formData),
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    }
+                });
+
+                if (response.ok) {
+                    message.style.color = "green";
+                    message.textContent = "Leave request submitted successfully!";
+                    form.reset();
+                } else {
+                    message.style.color = "red";
+                    message.textContent = "Request failed. Please try again.";
+                }
+            } catch (error) {
+                message.style.color = "red";
+                message.textContent = "Error: " + error.message;
+            }
+        }
+    </script>
 </body>
 </html>
