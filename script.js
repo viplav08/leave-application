@@ -3,8 +3,7 @@ document.getElementById('leaveForm').addEventListener('submit', function(event) 
 
     // Collect form data
     var formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
+        employeeId: document.getElementById('employeeId').value,
         leaveType: document.getElementById('leaveType').value,
         startDate: document.getElementById('startDate').value,
         endDate: document.getElementById('endDate').value,
@@ -12,7 +11,7 @@ document.getElementById('leaveForm').addEventListener('submit', function(event) 
     };
 
     // Send the data to the Google Apps Script
-    fetch('https://script.google.com/macros/s/AKfycbxj1YgD17C_93bThuLq7L1_p5n_fFbmRrJ9XVNCs_oZhOmAz9vM4MBpfa_nxoYrxHLw/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbxe9NpvvteFX6g6icWmIUhpKI3o_YCX10ImeYnf8g0/dev', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
