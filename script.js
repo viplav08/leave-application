@@ -1,30 +1,29 @@
-document.getElementById('leaveForm').addEventListener('submit', function (e) {
-  e.preventDefault();
+document.getElementById("leaveForm").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  // Get form values
-  const employeeId = document.getElementById('employeeId').value;
-  const leaveType = document.getElementById('leaveType').value;
-  const startDate = document.getElementById('startDate').value;
-  const endDate = document.getElementById('endDate').value;
+    var employeeId = document.getElementById("employeeId").value;
+    var leaveType = document.getElementById("leaveType").value;
+    var startDate = document.getElementById("startDate").value;
+    var endDate = document.getElementById("endDate").value;
 
-  // Create data object
-  const data = {
-    employeeId: employeeId,
-    leaveType: leaveType,
-    startDate: startDate,
-    endDate: endDate
-  };
-
-  // Send data to Google Apps Script
-  fetch('https://script.google.com/macros/s/AKfycbza7ol1LNRZrVMxcMQJBCeBM5Sc04pn2oszPDsSlwsW9Db58C3ntPiN2TBKc_QVEA9Z/exec', {
-    method: 'POST',
-    body: new URLSearchParams(data)
-  })
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('responseMessage').textContent = "Leave request submitted successfully!";
-  })
-  .catch(error => {
-    document.getElementById('responseMessage').textContent = "An error occurred, please try again.";
-  });
+    fetch("https://script.google.com/macros/s/AKfycbza7ol1LNRZrVMxcMQJBCeBM5Sc04pn2oszPDsSlwsW9Db58C3ntPiN2TBKc_QVEA9Z/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            employeeId: employeeId,
+            leaveType: leaveType,
+            startDate: startDate,
+            endDate: endDate
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        if (data.status === "success") {
+            document.getElementById("leaveForm").reset();
+        }
+    })
+    .catch(error => console.error("Error:", error));
 });
