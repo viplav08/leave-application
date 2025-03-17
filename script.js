@@ -1,21 +1,8 @@
-document.getElementById("leaveForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent default form submission
+function doPost(e) {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("LeaveRequests"); // Sheet name should match
+    var data = JSON.parse(e.postData.contents);
 
-    let formData = new FormData(this);
-    let jsonData = {};
-    
-    formData.forEach((value, key) => {
-        jsonData[key] = value;
-    });
+    sheet.appendRow([data.name, data.email, data.leaveType, data.startDate, data.endDate, data.reason, new Date()]);
 
-    fetch("https://script.google.com/macros/s/YOUR_SCRIPT_URL_HERE/exec", {
-        method: "POST",
-        body: JSON.stringify(jsonData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("statusMessage").innerText = data.message;
-        document.getElementById("leaveForm").reset();
-    })
-    .catch(error => console.error("Error:", error));
-});
+    return ContentService.createTextOutput(JSON.stringify({ "status": "success" })).setMimeType(ContentService.MimeType.JSON);
+}
