@@ -1,116 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leave Application Form</title>
-  <style>
-    /* Add your CSS styles here */
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: #f9f9f9;
-    }
-    h2 {
-      text-align: center;
-    }
-    label {
-      font-size: 14px;
-      font-weight: bold;
-      display: block;
-      margin-bottom: 8px;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 16px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #4CAF50;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .response-message {
-      text-align: center;
-      font-size: 16px;
-      font-weight: bold;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Application Form</title>
 </head>
 <body>
-
-  <div class="container">
-    <h2>Leave Application Form</h2>
-    <form id="leaveForm">
-      <label for="employeeId">Employee ID:</label>
-      <input type="text" id="employeeId" name="employeeId" required>
-
-      <label for="leaveType">Leave Type:</label>
-      <select id="leaveType" name="leaveType" required>
-        <option value="Sick Leave">Sick Leave</option>
-        <option value="Casual Leave">Casual Leave</option>
-        <option value="Annual Leave">Annual Leave</option>
-      </select>
-
-      <label for="startDate">Start Date:</label>
-      <input type="date" id="startDate" name="startDate" required>
-
-      <label for="endDate">End Date:</label>
-      <input type="date" id="endDate" name="endDate" required>
-
-      <button type="submit">Submit Request</button>
+    <h1>Leave Application Form</h1>
+    <form id="leave-form">
+        <label for="employeeId">Employee ID:</label>
+        <input type="text" id="employeeId" name="employeeId" required><br>
+        
+        <label for="leaveType">Leave Type:</label>
+        <select id="leaveType" name="leaveType" required>
+            <option value="Sick">Sick</option>
+            <option value="Vacation">Vacation</option>
+        </select><br>
+        
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" name="startDate" required><br>
+        
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate" required><br>
+        
+        <button type="submit">Submit</button>
     </form>
-    
-    <div class="response-message" id="responseMessage"></div>
-  </div>
 
-  <script>
-    document.getElementById('leaveForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // Prevent the default form submission
+    <script>
+        document.getElementById("leave-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            var formData = new FormData(this); // Collect form data
 
-      // Get form values
-      const employeeId = document.getElementById('employeeId').value;
-      const leaveType = document.getElementById('leaveType').value;
-      const startDate = document.getElementById('startDate').value;
-      const endDate = document.getElementById('endDate').value;
+            var params = new URLSearchParams();
+            formData.forEach(function(value, key) {
+                params.append(key, value);
+            });
 
-      // Prepare data to be sent
-      const data = {
-        employeeId: employeeId,
-        leaveType: leaveType,
-        startDate: startDate,
-        endDate: endDate
-      };
-
-      // Send data to Google Apps Script using POST request
-      fetch('https://script.google.com/macros/s/AKfycbyJdaQxqed6LQjh9sAlEfrBKKJSNMYN6_VcTF84XpYhWWZUIVXIAQvx6gTYAPJfRj4P/exec', {
-        method: 'POST',
-        body: new URLSearchParams(data)
-      })
-      .then(response => response.text())
-      .then(result => {
-        document.getElementById('responseMessage').textContent = "Leave request submitted successfully!";
-      })
-      .catch(error => {
-        document.getElementById('responseMessage').textContent = "An error occurred, please try again.";
-        console.error('Error:', error);
-      });
-    });
-  </script>
-
+            fetch("https://script.google.com/macros/s/AKfycbyJdaQxqed6LQjh9sAlEfrBKKJSNMYN6_VcTF84XpYhWWZUIVXIAQvx6gTYAPJfRj4P/exec", {
+                method: "POST",
+                body: params
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);  // Display response from the Google Apps Script
+                document.getElementById("leave-form").reset();  // Reset the form
+            })
+            .catch(error => {
+                alert("An error occurred, please try again.");
+                console.error("Error submitting form:", error);
+            });
+        });
+    </script>
 </body>
 </html>
