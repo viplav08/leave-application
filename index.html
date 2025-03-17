@@ -4,98 +4,221 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Application Form</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f9;
+            margin: 0;
         }
 
         .form-container {
-            background-color: white;
-            padding: 40px;
+            background-color: #ffffff;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            width: 400px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            padding: 30px;
+            width: 350px;
         }
 
-        .form-title {
+        h2 {
             text-align: center;
             margin-bottom: 20px;
-            font-weight: bold;
+            color: #333;
         }
 
-        #message {
-            margin-top: 15px;
-            font-weight: bold;
+        label {
+            margin-bottom: 8px;
+            display: block;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
     <div class="form-container">
-        <h2 class="form-title">Leave Application Form</h2>
-        <form id="leaveForm" onsubmit="submitForm(event)">
-            <div class="form-group">
-                <label>Employee ID:</label>
-                <input type="text" class="form-control" name="employeeId" required>
-            </div>
-            <div class="form-group">
-                <label>Leave Type:</label>
-                <select class="form-control" name="leaveType" required>
-                    <option value="">Select Leave Type</option>
-                    <option value="Sick Leave">Sick Leave</option>
-                    <option value="Casual Leave">Casual Leave</option>
-                    <option value="Earned Leave">Earned Leave</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Start Date:</label>
-                <input type="date" class="form-control" name="startDate" required>
-            </div>
-            <div class="form-group">
-                <label>End Date:</label>
-                <input type="date" class="form-control" name="endDate" required>
-            </div>
-            <button type="submit" class="btn btn-success btn-block">Submit Leave Request</button>
-            <div id="message" class="text-center"></div>
-        </form>
+        <h2>Leave Application Form</h2>
+        <label>Employee ID:</label>
+        <input type="text" id="employeeId" placeholder="Enter Employee ID" required>
+
+        <label>Leave Type:</label>
+        <select id="leaveType">
+            <option value="Sick Leave">Sick Leave</option>
+            <option value="Casual Leave">Casual Leave</option>
+            <option value="Annual Leave">Annual Leave</option>
+            <option value="Unpaid Leave">Unpaid Leave</option>
+        </select>
+
+        <label>Start Date:</label>
+        <input type="date" id="startDate" required>
+
+        <label>End Date:</label>
+        <input type="date" id="endDate" required>
+
+        <button onclick="submitLeaveRequest()">Submit Leave Request</button>
     </div>
 
     <script>
-        async function submitForm(event) {
-            event.preventDefault();  // Prevent page reload
-            const form = document.getElementById("leaveForm");
-            const message = document.getElementById("message");
+        async function submitLeaveRequest() {
+            const employeeId = document.getElementById("employeeId").value;
+            const leaveType = document.getElementById("leaveType").value;
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
 
-            const formData = new FormData(form);
-            const scriptURL = "https://script.google.com/macros/s/AKfycbx8mcwtClq4R4tntJMFdEQpWBuSf0_IkmZhwYfKFMahSccUhg1F7ziSJm25XAKCqvbg/exec";
+            if (!employeeId || !startDate || !endDate) {
+                alert("Please fill all required fields.");
+                return;
+            }
 
             try {
-                const response = await fetch(scriptURL, {
+                const response = await fetch("<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Application Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            padding: 30px;
+            width: 350px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            margin-bottom: 8px;
+            display: block;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Leave Application Form</h2>
+        <label>Employee ID:</label>
+        <input type="text" id="employeeId" placeholder="Enter Employee ID" required>
+
+        <label>Leave Type:</label>
+        <select id="leaveType">
+            <option value="Sick Leave">Sick Leave</option>
+            <option value="Casual Leave">Casual Leave</option>
+            <option value="Annual Leave">Annual Leave</option>
+            <option value="Unpaid Leave">Unpaid Leave</option>
+        </select>
+
+        <label>Start Date:</label>
+        <input type="date" id="startDate" required>
+
+        <label>End Date:</label>
+        <input type="date" id="endDate" required>
+
+        <button onclick="submitLeaveRequest()">Submit Leave Request</button>
+    </div>
+
+    <script>
+        async function submitLeaveRequest() {
+            const employeeId = document.getElementById("employeeId").value;
+            const leaveType = document.getElementById("leaveType").value;
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+
+            if (!employeeId || !startDate || !endDate) {
+                alert("Please fill all required fields.");
+                return;
+            }
+
+            try {
+                const response = await fetch("YOUR_DEPLOYED_SCRIPT_URL", {
                     method: "POST",
-                    body: new URLSearchParams(formData),
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `employeeId=${employeeId}&leaveType=${leaveType}&startDate=${startDate}&endDate=${endDate}`
                 });
 
                 const result = await response.json();
-
-                if (result.status === "success") {
-                    message.style.color = "green";
-                    message.textContent = result.message;
-                    form.reset();  // Clear the form
-                } else {
-                    message.style.color = "red";
-                    message.textContent = result.message;
-                }
-
+                alert(result.message);
             } catch (error) {
-                message.style.color = "red";
-                message.textContent = "Request failed. Please try again.";
+                alert("Request failed. Please try again.");
+                console.error("Error:", error);
+            }
+        }
+    </script>
+</body>
+</html>
+", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `employeeId=${employeeId}&leaveType=${leaveType}&startDate=${startDate}&endDate=${endDate}`
+                });
+
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                alert("Request failed. Please try again.");
+                console.error("Error:", error);
             }
         }
     </script>
