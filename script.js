@@ -1,37 +1,30 @@
-document.getElementById('leaveForm').addEventListener('submit', function(event) {
-  event.preventDefault();  // Prevent default form submission
+document.getElementById('leaveForm').addEventListener('submit', function (e) {
+  e.preventDefault();
 
-  // Collect form data
-  var formData = {
-    employeeId: document.getElementById('employeeId').value,
-    leaveType: document.getElementById('leaveType').value,
-    startDate: document.getElementById('startDate').value,
-    endDate: document.getElementById('endDate').value,
-    reason: document.getElementById('reason').value
+  // Get form values
+  const employeeId = document.getElementById('employeeId').value;
+  const leaveType = document.getElementById('leaveType').value;
+  const startDate = document.getElementById('startDate').value;
+  const endDate = document.getElementById('endDate').value;
+
+  // Create data object
+  const data = {
+    employeeId: employeeId,
+    leaveType: leaveType,
+    startDate: startDate,
+    endDate: endDate
   };
 
-  // Log the form data to check
-  console.log('Form Data:', formData);
-
-  // Send the data to the Google Apps Script via POST request
-  fetch('https://script.google.com/macros/s/AKfycbyN8c3WNBcfTGIxWUorXmaqsUygQf37ajebo6D0FtJw-GC8RoQg3-hP9VaqjXpLs2t7/exec', {
+  // Send data to Google Apps Script
+  fetch('https://script.google.com/macros/s/AKfycbyJdaQxqed6LQjh9sAlEfrBKKJSNMYN6_VcTF84XpYhWWZUIVXIAQvx6gTYAPJfRj4P/exec', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'  // Set the correct content type
-    },
-    body: JSON.stringify(formData)  // Send the data as JSON
+    body: new URLSearchParams(data)
   })
-  .then(response => response.json())  // Parse the JSON response
+  .then(response => response.text())
   .then(data => {
-    if (data.status === 'success') {
-      document.getElementById('responseMessage').innerText = "Leave application submitted successfully!";
-      document.getElementById('leaveForm').reset();  // Reset the form
-    } else {
-      document.getElementById('responseMessage').innerText = "Error: " + data.message;
-    }
+    document.getElementById('responseMessage').textContent = "Leave request submitted successfully!";
   })
   .catch(error => {
-    console.error('Error:', error);
-    document.getElementById('responseMessage').innerText = "An error occurred, please try again.";
+    document.getElementById('responseMessage').textContent = "An error occurred, please try again.";
   });
 });
