@@ -4,53 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Application Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #responseMessage {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>Leave Application Form</h1>
-    <form id="leave-form">
-        <label for="employeeId">Employee ID:</label>
-        <input type="text" id="employeeId" name="employeeId" required><br>
-        
-        <label for="leaveType">Leave Type:</label>
-        <select id="leaveType" name="leaveType" required>
-            <option value="Sick">Sick</option>
-            <option value="Vacation">Vacation</option>
-        </select><br>
-        
-        <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" name="startDate" required><br>
-        
-        <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" name="endDate" required><br>
-        
-        <button type="submit">Submit</button>
+
+<div class="container">
+    <h2>Leave Application</h2>
+    <form id="leaveForm">
+        <label for="employeeId">Employee ID</label>
+        <input type="text" id="employeeId" required>
+
+        <label for="leaveType">Leave Type</label>
+        <select id="leaveType" required>
+            <option value="Sick Leave">Sick Leave</option>
+            <option value="Casual Leave">Casual Leave</option>
+            <option value="Annual Leave">Annual Leave</option>
+        </select>
+
+        <label for="startDate">Start Date</label>
+        <input type="date" id="startDate" required>
+
+        <label for="endDate">End Date</label>
+        <input type="date" id="endDate" required>
+
+        <button type="submit">Submit Leave Request</button>
+        <p id="responseMessage"></p>
     </form>
+</div>
 
-    <script>
-        document.getElementById("leave-form").addEventListener("submit", function(event) {
-            event.preventDefault(); // Prevent default form submission
-            
-            var formData = new FormData(this); // Collect form data
+<script>
+document.getElementById("leaveForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form from refreshing the page
 
-            var params = new URLSearchParams();
-            formData.forEach(function(value, key) {
-                params.append(key, value);
-            });
+    const employeeId = document.getElementById("employeeId").value;
+    const leaveType = document.getElementById("leaveType").value;
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+    const responseMessage = document.getElementById("responseMessage");
 
-            fetch("https://script.google.com/macros/s/AKfycbyJdaQxqed6LQjh9sAlEfrBKKJSNMYN6_VcTF84XpYhWWZUIVXIAQvx6gTYAPJfRj4P/exec", {
-                method: "POST",
-                body: params
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert(data);  // Display response from the Google Apps Script
-                document.getElementById("leave-form").reset();  // Reset the form
-            })
-            .catch(error => {
-                alert("An error occurred, please try again.");
-                console.error("Error submitting form:", error);
-            });
-        });
-    </script>
+    fetch("https://script.google.com/macros/s/AKfycbyJdaQxqed6LQjh9sAlEfrBKKJSNMYN6_VcTF84XpYhWWZUIVXIAQvx6gTYAPJfRj4P/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            employeeId: employeeId,
+            leaveType: leaveType,
+            startDate: startDate,
+            endDate: endDate
+        })
+    })
+    .then(response => response.json())  // Expecting JSON response from server
+    .then(data => {
+        if (data.status === "success") {
+            responseMessage.style.color = "green";
+            responseMessage.innerText = data.message;
+            document.getElementById("leaveForm").reset();
+        } else {
+            responseMessage.style.color = "red";
+            responseMessage.innerText = "Error: " + data.message;
+        }
+    })
+    .catch(error => {
+        responseMessage.style.color = "red";
+        responseMessage.innerText = "Request failed. Please try again.";
+    });
+});
+</script>
+
 </body>
 </html>
