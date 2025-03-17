@@ -16,7 +16,7 @@ document.getElementById('leaveForm').addEventListener('submit', function (e) {
   };
 
   // Send data to Google Apps Script
-  fetch('https://script.google.com/macros/s/AKfycbyJdaQxqed6LQjh9sAlEfrBKKJSNMYN6_VcTF84XpYhWWZUIVXIAQvx6gTYAPJfRj4P/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbyKfbXb6fbtd1UZFvY5f1RtdqHcl6Sx8oTf6vk2sd3KcE2yVNCwTSAgEEaE8MDrMNhs/exec', {
     method: 'POST',
     body: new URLSearchParams(data)
   })
